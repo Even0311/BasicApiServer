@@ -1,5 +1,7 @@
 const CONSTANTS={
-    UPLOADPATH:"public/upload"
+    UPLOAD_PATH:"public/upload",
+    PROPERTIES_TO_TRIM:['Pages / Session','Avg. Session Duration']
+
 }
 
 module.exports=CONSTANTS;

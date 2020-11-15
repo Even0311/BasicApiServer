@@ -10,7 +10,7 @@ var static = require('koa-static');
 
 var app=new Koa();
 
-
+global.state=[];
 render(app, {
     root: path.join(__dirname, 'views'),
     extname: '.html',
@@ -20,7 +20,7 @@ render(app, {
     } 
 });
 
-//app.use(static("."));
+
 app.use(static(__dirname + '/public'));
 
 //middleware for Post method
@@ -31,6 +31,8 @@ app.use(static(__dirname + '/public'));
 
 var v1 = require("./routes/v1") ;
 var index = require("./routes/index") ;
+
+
 
 
 router.use("/v1",v1);

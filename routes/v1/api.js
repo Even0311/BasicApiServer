@@ -3,17 +3,18 @@ const multer = require('koa-multer');
 //const path = require('path');
 const fs = require("fs");
 const CONSTANTS=require("../../public/constant");
+const processData = require("../../public/tools/tools");
 
 // settings for file upload middleware 
 var storage = multer.diskStorage({
     destination: async function (req, file, cb) {
 
         /*Setting the path for the file uploaded*/
-        if(!fs.existsSync(CONSTANTS.UPLOADPATH)) {
-             fs.mkdirSync(CONSTANTS.UPLOADPATH)
+        if(!fs.existsSync(CONSTANTS.UPLOAD_PATH)) {
+             fs.mkdirSync(CONSTANTS.UPLOAD_PATH)
         }  
 
-        cb(null, CONSTANTS.UPLOADPATH); 
+        cb(null, CONSTANTS.UPLOAD_PATH); 
               
           
     },
@@ -49,6 +50,10 @@ router.post("/file", upload.single('file'),async(ctx)=>{
         unique_id,
         unique_sauce
     }
+    global.state.push({fileid:unique_id,dataTree:null})
+    
+    processData(ctx.req.file.filename, unique_id);
+    
 })                                                                                                                                                                                                                                
 
 module.exports=router.routes();

@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "art-template": "^4.13.2",
+    "csv-parser": "^2.3.3",
+    "fs": "0.0.1-security",
     "koa": "^2.13.0",
     "koa-art-template": "^1.1.1",
     "koa-bodyparser": "^4.3.0",

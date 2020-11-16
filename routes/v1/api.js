@@ -57,7 +57,7 @@ router.post("/file", upload.single('file'),async(ctx)=>{
         unique_sauce
     }
     global.state.push({fileid:unique_id,dataTree:null})
-    console.log(unique_id);
+    // console.log(unique_id);
     
     processData(ctx.req.file.filename, unique_id);
     

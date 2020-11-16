@@ -10,11 +10,11 @@ const averageOfStringArray=((arrayToCalculate)=>{
         )
         averageNumber = Sum/arrayToCalculate.length 
       }
-      return averageNumber.toString();
+      return averageNumber
   
     }
     catch(e){
-      if(arrayToCalculate.length===0){
+      if(arrayToCalculate){
         return 0
       }
       else{
@@ -34,6 +34,7 @@ const averageOfStringArray=((arrayToCalculate)=>{
     let children=Object.keys(node);
     children.forEach(
         (child)=>{
+          
             result[child] =  help_RecursionCalculateAverage(node[child],pattern,cb,{})
         }
     )
@@ -88,12 +89,14 @@ const averageOfStringArray=((arrayToCalculate)=>{
   const getTheDayOfDate=(date)=>{
     // cannot confirm what does the string look like in case of months before Oct
     // for example, how to represent Sep, 09 or 9
-    let year, month, day=0
+    let year=month=day=0
+    
     try{
       if(date.length===7){
         year= parseInt(date.slice(0,4));
         month= parseInt(date[4]);
-        day= parseInt(date.slice(5,6));
+        day= parseInt(date.slice(5,7));
+       
         
      }
      else if(date.length===8){
@@ -106,7 +109,7 @@ const averageOfStringArray=((arrayToCalculate)=>{
     }
    
     
-    // The month means the index of the month array from 0 
+    
     return new Date(year,--month,day).getDay();
   }
   
@@ -150,6 +153,7 @@ const averageOfStringArray=((arrayToCalculate)=>{
         })
       
     }
+  
     return weekList;
   }
   

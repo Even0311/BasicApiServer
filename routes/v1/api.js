@@ -3,7 +3,8 @@ const multer = require('koa-multer');
 //const path = require('path');
 const fs = require("fs");
 const CONSTANTS=require("../../public/constant");
-const {processData,recursionCalculateAverage,calculateRationOfRootNode, averageOfStringArray,getTheMaxmiumSession} = require("../../public/tools/tools");
+const {processData} = require("../../public/tools/tools");
+const {recursionCalculateAverage,calculateRationOfRootNode,getTheMaxmiumSession,averageOfStringArray} = require("../../public/tools/query_function")
 
 // settings for file upload middleware 
 var storage = multer.diskStorage({
@@ -30,8 +31,8 @@ var upload = multer({ storage: storage });
 router.get("/",async (ctx,next)=>{
     
     
-    // ctx.body={"message":"success"}
-    await ctx.render("index.html")
+    
+    ctx.body={message:"success"}
 })
 /* Here is the API endpoint to upload csv files, but please be careful that there are several requirements
 for API consumers
@@ -51,6 +52,7 @@ router.post("/file", upload.single('file'),async(ctx)=>{
         unique_sauce
     }
     global.state.push({fileid:unique_id,dataTree:null})
+    console.log(unique_id);
     
     processData(ctx.req.file.filename, unique_id);
     

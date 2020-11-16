@@ -3,7 +3,7 @@ const multer = require('koa-multer');
 //const path = require('path');
 const fs = require("fs");
 const CONSTANTS=require("../../public/constant");
-const processData = require("../../public/tools/tools");
+const {processData,recursionCalculateAverage,calculateRationOfRootNode, averageOfStringArray,getTheMaxmiumSession} = require("../../public/tools/tools");
 
 // settings for file upload middleware 
 var storage = multer.diskStorage({
@@ -41,7 +41,7 @@ for API consumers
  2.The enctype of the form has to be enctype="multipart/form-data"
 */
 router.post("/file", upload.single('file'),async(ctx)=>{
-    console.log("ctx.req====>"+ctx.req.file.filename);
+    
     const unique_id = ctx.req.file.filename.split(".")[0];
     const unique_sauce = ctx.request.header.host +"/upload" +"/"+ ctx.req.file.filename
     
@@ -54,6 +54,27 @@ router.post("/file", upload.single('file'),async(ctx)=>{
     
     processData(ctx.req.file.filename, unique_id);
     
-})                                                                                                                                                                                                                                
+})  
+
+router.get("/file/:id", async(ctx)=>{
+    const {id} = ctx.params;
+    let AnswerJson={};
+    global.state.forEach(
+        (filedata)=>{
+            if(id===filedata.fileid){
+                if(filedata.dataTree===null){
+                    AnswerJson={message:'Sorry the data is still processing, please wait for a while'}
+                }
+                else{
+                    AnswerJson.averagePageviewsPerDayPerType= recursionCalculateAverage(filedata.dataTree,CONSTANTS.SEARCH_PATTERN_FOR_AVERAGE_PAGEVIEW,averageOfStringArray);
+                    AnswerJson.rationOfUserSessions= calculateRationOfRootNode(filedata.dataTree);
+                    AnswerJson.maxmiumSessionsPerWeek= getTheMaxmiumSession(filedata.dataTree,CONSTANTS.WEEKLY_NUMBERS_TO_CALCULATE)
+                }
+            }
+        }
+    )
+    AnswerJson= JSON.stringify(AnswerJson);
+    ctx.body=AnswerJson? AnswerJson: {message:"No file related to the id provided"};
+})
 
 module.exports=router.routes();

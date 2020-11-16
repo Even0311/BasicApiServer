@@ -7,6 +7,13 @@ const {processData} = require("../../public/tools/tools");
 const {recursionCalculateAverage,calculateRationOfRootNode,getTheMaxmiumSession,averageOfStringArray} = require("../../public/tools/query_function")
 
 // settings for file upload middleware 
+/* Here is the API endpoint to upload csv files, but please be careful that there are several requirements
+for API consumers
+ 1. the paramater of upload.single() has to be the field name of the input elements. 
+        for example <input type='file' name='file'>
+
+ 2.The enctype of the form has to be enctype="multipart/form-data"
+*/
 var storage = multer.diskStorage({
     destination: async function (req, file, cb) {
 
@@ -31,16 +38,14 @@ var upload = multer({ storage: storage });
 router.get("/",async (ctx,next)=>{
     
     
+    await ctx.render("../views/index");
     
+})
+
+router.get("/helptest",async(ctx)=>{
     ctx.body={message:"success"}
 })
-/* Here is the API endpoint to upload csv files, but please be careful that there are several requirements
-for API consumers
- 1. the paramater of upload.single() has to be the field name of the input elements. 
-        for example <input type='file' name='file'>
 
- 2.The enctype of the form has to be enctype="multipart/form-data"
-*/
 router.post("/file", upload.single('file'),async(ctx)=>{
     
     const unique_id = ctx.req.file.filename.split(".")[0];
